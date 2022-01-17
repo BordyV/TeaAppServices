@@ -16,7 +16,7 @@ const stock = mongoose.Schema({
 
 //structure de donnee d'un thé
 const TeaSchema = mongoose.Schema({
-    reference: { type: String, required: true },
+    reference: { type: Number, required: true },
     name: { type: String, required: true },
     stocks: [stock],
 });

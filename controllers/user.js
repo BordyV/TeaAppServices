@@ -1,6 +1,5 @@
 const userModel = require('../models/user.model');
 const { Mongoose } = require('mongoose');
-const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
@@ -40,6 +39,7 @@ const newUser = async (req, res) => {
         })
 
 }
+
 //recupere tout les utilisateurs
 const getUsers = async (req, res) => {
     await userModel.find()

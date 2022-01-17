@@ -10,6 +10,7 @@ const dotenv = require('dotenv').config()
 const fs = require('fs');
 const cors = require('cors');
 const userRoutes = require('./routes/user');
+const teaRoutes = require('./routes/tea');
 
 app.use(function (req, res, next) {
 
@@ -35,6 +36,7 @@ app.use(function (req, res, next) {
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/user', userRoutes);
+app.use('/tea', teaRoutes);
 
 // DB connection
 mongoose.connect(DB_URI, {
