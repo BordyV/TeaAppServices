@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "3b0fe4f2-9cc7-4ae9-ab73-ab3e159d00f0",
+		"name": "TeaAppService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tea",
+			"item": [
+				{
+					"name": "Get Teas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userFirstName\" : \"Valentin\", \r\n    \"userLastName\" : \"Bordy\",\r\n    \"userEmail\" : \"valentin.bordy@hotmail.com\",\r\n    \"userPassword\": \"azerty\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3005/tea/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"tea",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Tea",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Headers",
+								"value": "X-Requested-With,content-type",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"reference\": 12929292,\r\n\"name\": \"aeazeaze\",\r\n\"stocks\": []\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3005/tea/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"tea",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Tea",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Headers",
+								"value": "X-Requested-With,content-type",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"61e53381c29e9431b8e96dab\",\r\n\"reference\": 129229292,\r\n\"name\": \"azaeze\",\r\n\"stocks\": []\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3005/tea/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"tea",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tea",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Headers",
+								"value": "X-Requested-With,content-type",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbGVudGluLmJvcmR5QGhvdG1haWwuY29tIiwiaWQiOiI2MWUzMDU0YWEwNzg2YTM3MzgzNjJlNzUiLCJpYXQiOjE2NDI0MDkyODUsImV4cCI6MTY0MjQ5NTY4NX0.jUn9nmRiynO3a0sfQ1V9AsISEZMjsn8MNvX59IIut1o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"reference\": \"12929292\",\r\n\"name\": \"aeazeaze\",\r\n\"stocks\": []\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3005/tea/?_id=61e53381c29e9431b8e96dab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"tea",
+								""
+							],
+							"query": [
+								{
+									"key": "_id",
+									"value": "61e53381c29e9431b8e96dab"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Headers",
+								"value": "X-Requested-With,content-type",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbGVudGluLmJvcmR5QGhvdG1haWwuY29tIiwiaWQiOiI2MWUzMDU0YWEwNzg2YTM3MzgzNjJlNzUiLCJpYXQiOjE2NDI0MDkyODUsImV4cCI6MTY0MjQ5NTY4NX0.jUn9nmRiynO3a0sfQ1V9AsISEZMjsn8MNvX59IIut1o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3005/tea/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"tea",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "AddUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Headers",
+								"value": "X-Requested-With,content-type",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userFirstName\" : \"Valentin\", \r\n    \"userLastName\" : \"Bordy\",\r\n    \"userEmail\" : \"valentin.bordy@hotmail.com\",\r\n    \"userPassword\": \"azerty\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3005/user/addUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"user",
+								"addUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connections",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Credentials",
+								"value": "true",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Allow-Headers",
+								"value": "X-Requested-With,content-type",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userEmail\" : \"valentin.bordy@hotmail.com\",\r\n    \"userPassword\": \"azerty\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3005/user/connection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
+							"path": [
+								"user",
+								"connection"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

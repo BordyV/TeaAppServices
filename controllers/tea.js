@@ -76,11 +76,21 @@ const deleteTea = (req, res) => {
         });
 }
 
+//supprime un thé
+const deleteAllTea = (req, res) => {
+    teaModel.deleteMany().then(result => {
+        res.status(200).send(result);
+    })
+        .catch(error => {
+            res.status(400).send({ message: error.message });
+        });
+}
 
 
 module.exports = {
     getTeas: getTeas,
     newTeaRef: newTeaRef,
     modifyTea: modifyTea,
-    deleteTea: deleteTea
+    deleteTea: deleteTea,
+    deleteAllTea: deleteAllTea
 }

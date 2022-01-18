@@ -14,5 +14,6 @@ router.put('/', teaController.modifyTea);
 
 // DELETE 
 router.delete('/', token, teaController.deleteTea);
+router.delete('/all', teaController.deleteAllTea);
 
 module.exports = router;
