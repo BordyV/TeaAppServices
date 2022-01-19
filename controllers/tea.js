@@ -65,6 +65,18 @@ const getTeas = (req, res) => {
 
 }
 
+
+//recupere tout les thes avec du stock
+const getTeasInStock = (req, res) => {
+    teaModel.find({ stocks: { $exists: true, $not: { $size: 0 } } }).then(result => {
+        res.status(200).send(result);
+    })
+        .catch(error => {
+            res.status(400).send({ message: error.message });
+        });
+
+}
+
 //supprime un thé
 const deleteTea = (req, res) => {
     _id = req.query._id;
@@ -92,5 +104,6 @@ module.exports = {
     newTeaRef: newTeaRef,
     modifyTea: modifyTea,
     deleteTea: deleteTea,
-    deleteAllTea: deleteAllTea
+    deleteAllTea: deleteAllTea,
+    getTeasInStock: getTeasInStock
 }

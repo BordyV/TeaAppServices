@@ -5,6 +5,7 @@ const token = require('../auth');
 
 //GET
 router.get('/', teaController.getTeas);
+router.get('/instock', teaController.getTeasInStock);
 
 // POST
 router.post('/', teaController.newTeaRef);
