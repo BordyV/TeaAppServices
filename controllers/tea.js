@@ -17,7 +17,7 @@ const newTeaRef = (req, res) => {
             if (!exist) {
                 await newTea.save()
                     .then(() => {
-                        res.json({ message: "Référence ajouté correctement" });
+                        res.json({ message: "Référence ajoutée correctement" });
                     })
                     .catch(err => {
                         res.status(400).json({ message: err.message });
