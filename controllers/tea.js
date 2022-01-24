@@ -1,6 +1,6 @@
 const teaModel = require('../models/tea.model');
 
-//ajoute un nouvel utilisateur
+//ajoute un nouveau thé
 const newTeaRef = (req, res) => {
     const data = req.body;
     const newTea = new teaModel({
@@ -33,7 +33,7 @@ const newTeaRef = (req, res) => {
         })
 }
 
-//ajoute un nouvel utilisateur
+//modifie un thé
 const modifyTea = (req, res) => {
     const data = req.body;
 
@@ -99,11 +99,38 @@ const deleteAllTea = (req, res) => {
 }
 
 
+//ajoute du stock à un thé
+const pushStock = (req, res) => {
+    _id = req.params.id;
+    const data = req.body;
+    const newStock = {
+        location: data.location,
+        dateExp: data.dateExp,
+        quantity: data.quantity
+    };
+    teaModel.updateOne(
+        { _id: _id },
+        { $push: { stocks: newStock } }
+    ).then(result => {
+        if (res.nModfied < 1) {
+            res.status(403).json({ erreur: "Référence introuvable, vérfier les champs." })
+        }
+        else {
+            res.status(200).json("Stock ajouté correctement");
+        }
+    })
+        .catch(error => {
+            res.status(400).send({ message: error.message });
+        });;
+}
+
+
 module.exports = {
     getTeas: getTeas,
     newTeaRef: newTeaRef,
     modifyTea: modifyTea,
     deleteTea: deleteTea,
     deleteAllTea: deleteAllTea,
-    getTeasInStock: getTeasInStock
+    getTeasInStock: getTeasInStock,
+    pushStock: pushStock
 }

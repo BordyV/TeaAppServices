@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// sub structrure 
+// sub structrure d'un stock
 const stock = mongoose.Schema({
     location: {
         type: String

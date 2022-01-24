@@ -9,6 +9,7 @@ router.get('/instock', teaController.getTeasInStock);
 
 // POST
 router.post('/', teaController.newTeaRef);
+router.post('/:id/stock', teaController.pushStock);
 
 //PUT
 router.put('/', teaController.modifyTea);
