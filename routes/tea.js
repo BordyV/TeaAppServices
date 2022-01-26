@@ -13,6 +13,7 @@ router.post('/:id/stock', teaController.pushStock);
 
 //PUT
 router.put('/', teaController.modifyTea);
+router.put('/:id/stock/out', teaController.deleteStock);
 
 // DELETE 
 router.delete('/', token, teaController.deleteTea);

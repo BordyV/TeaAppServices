@@ -101,7 +101,7 @@ const deleteAllTea = (req, res) => {
 
 //ajoute du stock à un thé
 const pushStock = (req, res) => {
-    _id = req.params.id;
+    const _id = req.params.id;
     const data = req.body;
     const newStock = {
         location: data.location,
@@ -121,7 +121,82 @@ const pushStock = (req, res) => {
     })
         .catch(error => {
             res.status(400).send({ message: error.message });
-        });;
+        });
+}
+
+
+//delete du stock à un thé
+const deleteStock = (req, res) => {
+    const _id = req.params.id;
+    const quantity = req.body.quantity;
+    teaModel.findOne({ _id: _id })
+        .then(async (rslt) => {
+            let exist = rslt.stocks.length > 0 ? true : false;
+            if (exist) {
+                let totalquantity = 0;
+                for (let stock of rslt.stocks) {
+                    totalquantity += stock.quantity;
+                }
+                //si on demande de supprimer plus de quantité qu'il y en a en stock
+                if (totalquantity < quantity) {
+                    res.status(403).json({ erreur: "la quantité demandé est supérieur à la quantité total du stock." });
+
+                }
+                else {
+                    let resStocks = _deleteStockByQuantity(rslt.stocks, quantity);
+                    teaModel.updateOne({ '_id': _id }, {
+                        '$set': {
+                            'stocks': resStocks
+                        }
+                    }).then(result => {
+                        if (res.nModfied < 1) {
+                            res.status(403).json({ erreur: "Référence introuvable, vérfier les champs." })
+                        }
+                        else {
+                            res.status(200).json("Stock supprimé correctement");
+                        }
+                    })
+                        .catch(error => {
+                            res.status(400).send({ message: error.message });
+                        });
+                }
+            }
+            else {
+                res.status(403).json({ erreur: "la référence n'existe pas." });
+            }
+
+        })
+        .catch(err => {
+            res.status(400).send({ message: err.message });
+        })
+}
+
+function _deleteStockByQuantity(stocks, quantity) {
+    let stocksRes = [];
+    let totalquantity;
+
+    stocksRes = stocks.sort(function (a, b) {
+        return new Date(a.dateExp) - new Date(b.dateExp);
+    });
+
+    let quantityTemp = quantity;
+    //permet de controler combien de stock on a enlever 
+    for (let stock of stocksRes) {
+        //si la quantité dans le stock est supérieur à la quantité demandé on return
+        if (stock.quantity > quantityTemp) {
+            stock.quantity -= quantityTemp;
+            quantityTemp -= quantityTemp;
+        } else {
+            quantityTemp = quantityTemp - stock.quantity;
+            stock.quantity -= stock.quantity;
+        }
+        if (quantityTemp == 0) {
+            let res = stocksRes.filter((stock) => {
+                return stock.quantity > 0;
+            });
+            return res;
+        }
+    }
 }
 
 
@@ -132,5 +207,6 @@ module.exports = {
     deleteTea: deleteTea,
     deleteAllTea: deleteAllTea,
     getTeasInStock: getTeasInStock,
-    pushStock: pushStock
+    pushStock: pushStock,
+    deleteStock: deleteStock
 }
