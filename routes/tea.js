@@ -8,8 +8,8 @@ router.get('/', teaController.getTeas);
 router.get('/instock', teaController.getTeasInStock);
 
 // POST
-router.post('/', teaController.newTeaRef);
-router.post('/:id/stock', teaController.pushStock);
+router.post('/', token, teaController.newTeaRef);
+router.post('/:id/stock', token, teaController.pushStock);
 
 //PUT
 router.put('/', teaController.modifyTea);
