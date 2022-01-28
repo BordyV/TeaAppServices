@@ -7,7 +7,7 @@ const LogSchema = mongoose.Schema({
   category: { type: String, required: true }, // categorie de l'action
   createdBy: { type: String, required: true },
   message: { type: String, required: true },
-  _idOperationDocument: { type: String, required: false }
+  _idOperationDocument: { type: String, required: false }// exemple _id tea ou user
 }, {
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 });
