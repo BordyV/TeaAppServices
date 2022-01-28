@@ -1,4 +1,6 @@
 const teaModel = require('../models/tea.model');
+const logModel = require('../models/log.model');
+const jwtUtil = require('../util/jwtUtil');
 
 //ajoute un nouveau thé
 const newTeaRef = (req, res) => {
@@ -16,7 +18,20 @@ const newTeaRef = (req, res) => {
             let exist = rslt.length > 0 ? true : false;
             if (!exist) {
                 await newTea.save()
-                    .then(() => {
+                    .then((result) => {
+                        try {
+                            const tokenId = jwtUtil.getIdUserFromToken(req);
+                            const newLog = new logModel({
+                                action: 'add-tea',
+                                category: 'Tea',
+                                createdBy: tokenId,
+                                message: 'Ajout du thé',
+                                _idOperationDocument: result._id
+                            });
+                            newLog.save();
+                        } catch (e) {
+
+                        }
                         res.json({ message: "Référence ajoutée correctement" });
                     })
                     .catch(err => {
@@ -47,6 +62,19 @@ const modifyTea = (req, res) => {
     // `doc` is the document _after_ `update` was applied because of
     // `returnOriginal: false`
     teaModel.findOneAndUpdate(filter, update).then(result => {
+        try {
+            const tokenId = jwtUtil.getIdUserFromToken(req);
+            const newLog = new logModel({
+                action: 'modify-tea',
+                category: 'Tea',
+                createdBy: tokenId,
+                message: 'Modification du thé ',
+                _idOperationDocument: data._id
+            });
+            newLog.save();
+        } catch (e) {
+
+        }
         res.status(200).send(result);
     })
         .catch(error => {
@@ -116,6 +144,19 @@ const pushStock = (req, res) => {
             res.status(403).json({ erreur: "Référence introuvable, vérfier les champs." })
         }
         else {
+            try {
+                const tokenId = jwtUtil.getIdUserFromToken(req);
+                const newLog = new logModel({
+                    action: 'ajout-stock',
+                    category: 'Tea',
+                    createdBy: tokenId,
+                    message: 'Ajout de stock : ' + data.quantity + ' unités expirant le ' + data.dateExp,
+                    _idOperationDocument: _id
+                });
+                newLog.save();
+            } catch (e) {
+
+            }
             res.status(200).json("Stock ajouté correctement");
         }
     })
@@ -153,6 +194,19 @@ const deleteStock = (req, res) => {
                             res.status(403).json({ erreur: "Référence introuvable, vérfier les champs." })
                         }
                         else {
+                            try {
+                                const tokenId = jwtUtil.getIdUserFromToken(req);
+                                const newLog = new logModel({
+                                    action: 'delete-stock',
+                                    category: 'Tea',
+                                    createdBy: tokenId,
+                                    message: 'Suppression du stock : ' + quantity + ' unités',
+                                    _idOperationDocument: _id
+                                });
+                                newLog.save();
+                            } catch (e) {
+
+                            }
                             res.status(200).json("Stock supprimé correctement");
                         }
                     })

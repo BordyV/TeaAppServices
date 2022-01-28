@@ -22,6 +22,19 @@ const newUser = async (req, res) => {
             if (!exist) {
                 await newUser.save()
                     .then(data => {
+                        try {
+                            const tokenId = jwtUtil.getIdUserFromToken(req);
+                            const newLog = new logModel({
+                                action: 'add-user',
+                                category: 'User',
+                                createdBy: tokenId,
+                                message: 'Ajout de l\'utilisateur ',
+                                _idOperationDocument: data._id
+                            });
+                            newLog.save();
+                        } catch (e) {
+
+                        }
                         res.json({ message: "Utilisateur bien ajouté, veuillez vous connecter." });
                     })
                     .catch(err => {

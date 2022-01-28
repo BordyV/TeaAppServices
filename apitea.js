@@ -11,6 +11,7 @@ const fs = require('fs');
 const cors = require('cors');
 const userRoutes = require('./routes/user');
 const teaRoutes = require('./routes/tea');
+const logRoutes = require('./routes/log');
 
 app.use(function (req, res, next) {
 
@@ -37,6 +38,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/user', userRoutes);
 app.use('/tea', teaRoutes);
+app.use('/log', logRoutes);
 
 // DB connection
 mongoose.connect(DB_URI, {
