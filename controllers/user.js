@@ -9,8 +9,7 @@ const newUser = async (req, res) => {
     console.error(data);
 
     const newUser = new userModel({
-        userFirstName: data.userFirstName.toUpperCase(),
-        userLastName: data.userLastName.toUpperCase(),
+        userPseudo: data.userPseudo,
         userEmail: data.userEmail,
         userPassword: bcrypt.hashSync(data.userPassword, 8),
     });
@@ -23,14 +22,14 @@ const newUser = async (req, res) => {
             if (!exist) {
                 await newUser.save()
                     .then(data => {
-                        res.json({ message: "Sucess, correctly added to the dataBASE" });
+                        res.json({ message: "Utilisateur bien ajouté, veuillez vous connecter." });
                     })
                     .catch(err => {
                         res.status(400).json({ message: err.message });
                     })
             }
             else {
-                res.status(403).json({ erreur: "Déjà inscrit..." });
+                res.status(403).json({ message: "email déjà inscrit." });
             }
 
         })

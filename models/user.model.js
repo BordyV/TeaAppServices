@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 //structure de donnee d'un user
 const UserSchema = mongoose.Schema({
-    userFirstName: {
-        type: String,
-        required: true
-    },
-    userLastName: {
+    userPseudo: {
         type: String,
         required: true
     },
