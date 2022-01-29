@@ -1,13 +1,13 @@
 const userModel = require('../models/user.model');
+const logModel = require('../models/log.model');
 const { Mongoose } = require('mongoose');
 const jwt = require('jsonwebtoken');
+const jwtUtil = require('../util/jwtUtil');
 var bcrypt = require('bcryptjs');
 
 //ajoute un nouvel utilisateur
 const newUser = async (req, res) => {
     const data = req.body;
-    console.error(data);
-
     const newUser = new userModel({
         userPseudo: data.userPseudo,
         userEmail: data.userEmail,
@@ -24,16 +24,17 @@ const newUser = async (req, res) => {
                     .then(data => {
                         try {
                             const tokenId = jwtUtil.getIdUserFromToken(req);
+                            console.log(tokenId);
                             const newLog = new logModel({
                                 action: 'add-user',
                                 category: 'User',
                                 createdBy: tokenId,
-                                message: 'Ajout de l\'utilisateur ',
+                                message: 'Création de l\'utilisateur ' + data.userEmail,
                                 _idOperationDocument: data._id
                             });
                             newLog.save();
                         } catch (e) {
-
+                            console.log(e)
                         }
                         res.json({ message: "Utilisateur bien ajouté, veuillez vous connecter." });
                     })
@@ -111,10 +112,6 @@ const connection = async (req, res) => {
             res.status(400).send({ message: error.message })
         })
 }
-
-
-
-
 
 module.exports = {
     newUser: newUser,

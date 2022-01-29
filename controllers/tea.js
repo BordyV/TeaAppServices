@@ -1,6 +1,8 @@
 const teaModel = require('../models/tea.model');
 const logModel = require('../models/log.model');
 const jwtUtil = require('../util/jwtUtil');
+const { format } = require("date-fns");
+
 
 //ajoute un nouveau thé
 const newTeaRef = (req, res) => {
@@ -25,7 +27,7 @@ const newTeaRef = (req, res) => {
                                 action: 'add-tea',
                                 category: 'Tea',
                                 createdBy: tokenId,
-                                message: 'Ajout du thé',
+                                message: 'Ajout du thé ' + data.reference,
                                 _idOperationDocument: result._id
                             });
                             newLog.save();
@@ -68,7 +70,7 @@ const modifyTea = (req, res) => {
                 action: 'modify-tea',
                 category: 'Tea',
                 createdBy: tokenId,
-                message: 'Modification du thé ',
+                message: 'Modification du thé ' + data.reference,
                 _idOperationDocument: data._id
             });
             newLog.save();
@@ -104,11 +106,33 @@ const getTeasInStock = (req, res) => {
         });
 
 }
+const getTeaById = (req, res) => {
+    const _id = req.params.id;
+    teaModel.findOne({ _id: _id }).then(result => {
+        res.status(200).send(result);
+    })
+        .catch(error => {
+            res.status(400).send({ message: error.message });
+        });
+}
 
 //supprime un thé
 const deleteTea = (req, res) => {
-    _id = req.query._id;
-    teaModel.deleteMany({ _id: _id }).then(result => {
+    const _id = req.query._id;
+    teaModel.findOneAndDelete({ _id: _id }).then(result => {
+        try {
+            const tokenId = jwtUtil.getIdUserFromToken(req);
+            const newLog = new logModel({
+                action: 'delete-tea',
+                category: 'Tea',
+                createdBy: tokenId,
+                message: 'Suppression du thé : ' + result.reference,
+                _idOperationDocument: result._id
+            });
+            newLog.save();
+        } catch (e) {
+            console.log(e)
+        }
         res.status(200).send(result);
     })
         .catch(error => {
@@ -145,17 +169,28 @@ const pushStock = (req, res) => {
         }
         else {
             try {
-                const tokenId = jwtUtil.getIdUserFromToken(req);
-                const newLog = new logModel({
-                    action: 'ajout-stock',
-                    category: 'Tea',
-                    createdBy: tokenId,
-                    message: 'Ajout de stock : ' + data.quantity + ' unités expirant le ' + data.dateExp,
-                    _idOperationDocument: _id
-                });
-                newLog.save();
-            } catch (e) {
+                teaModel.findOne({ _id: _id })
+                    .then(async (rslt) => {
+                        let ref = rslt.reference;
+                        const tokenId = jwtUtil.getIdUserFromToken(req);
+                        const dateExpiration = Date.parse(data.dateExp);
 
+                        const dateExpFinal = format(dateExpiration, "dd/MM/yyyy");
+                        const newLog = new logModel({
+                            action: 'ajout-stock',
+                            category: 'Tea',
+                            createdBy: tokenId,
+                            message: 'Ajout de stock au thé ' + ref + ': ' + data.quantity + ' unités expirant le ' + dateExpFinal,
+                            _idOperationDocument: _id
+                        });
+                        newLog.save();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+
+            } catch (e) {
+                console.log(e)
             }
             res.status(200).json("Stock ajouté correctement");
         }
@@ -170,6 +205,7 @@ const pushStock = (req, res) => {
 const deleteStock = (req, res) => {
     const _id = req.params.id;
     const quantity = req.body.quantity;
+    const tea = req.body.tea;
     teaModel.findOne({ _id: _id })
         .then(async (rslt) => {
             let exist = rslt.stocks.length > 0 ? true : false;
@@ -200,7 +236,7 @@ const deleteStock = (req, res) => {
                                     action: 'delete-stock',
                                     category: 'Tea',
                                     createdBy: tokenId,
-                                    message: 'Suppression du stock : ' + quantity + ' unités',
+                                    message: 'Suppression du stock du thé ' + tea.reference + ': ' + quantity + ' unités',
                                     _idOperationDocument: _id
                                 });
                                 newLog.save();
@@ -256,6 +292,7 @@ function _deleteStockByQuantity(stocks, quantity) {
 
 module.exports = {
     getTeas: getTeas,
+    getTeaById: getTeaById,
     newTeaRef: newTeaRef,
     modifyTea: modifyTea,
     deleteTea: deleteTea,

@@ -5,6 +5,7 @@ const token = require('../auth');
 
 //GET
 router.get('/', teaController.getTeas);
+router.get('/:id', teaController.getTeaById);
 router.get('/instock', teaController.getTeasInStock);
 
 // POST
@@ -16,7 +17,7 @@ router.put('/', teaController.modifyTea);
 router.put('/:id/stock/out', teaController.deleteStock);
 
 // DELETE 
-router.delete('/', token, teaController.deleteTea);
+router.delete('/', teaController.deleteTea);
 router.delete('/all', teaController.deleteAllTea);
 
 module.exports = router;

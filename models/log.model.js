@@ -7,10 +7,10 @@ const LogSchema = mongoose.Schema({
   category: { type: String, required: true }, // categorie de l'action
   createdBy: { type: String, required: true },
   message: { type: String, required: true },
-  _idOperationDocument: { type: String, required: false }// exemple _id tea ou user
+  _idOperationDocument: { type: String, required: false }, // exemple _id tea ou user
+  commentaire: { type: String, required: false }
 }, {
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 });
-
 
 module.exports = mongoose.model('LOG_DATA', LogSchema, 'LOG_DATA');

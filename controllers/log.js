@@ -11,7 +11,17 @@ const getLogs = async (req, res) => {
     })
 }
 
+//supprime tout les logs
+const deleteAllLogs = (req, res) => {
+  logModel.deleteMany().then(result => {
+    res.status(200).send(result);
+  })
+    .catch(error => {
+      res.status(400).send({ message: error.message });
+    });
+}
 
 module.exports = {
-  getLogs: getLogs
+  getLogs: getLogs,
+  deleteAllLogs: deleteAllLogs
 }

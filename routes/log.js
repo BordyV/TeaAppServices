@@ -6,4 +6,7 @@ const token = require('../auth');
 // GET
 router.get('/', logController.getLogs); // renvoi tous les logs
 
+// DELETE 
+router.delete('/all', logController.deleteAllLogs);
+
 module.exports = router;
