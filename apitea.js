@@ -43,7 +43,8 @@ app.use('/log', logRoutes);
 // DB connection
 mongoose.connect(DB_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 }, (err) => {
     if (err) console.log(err)
     else console.log('Connected to the database')

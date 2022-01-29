@@ -23,6 +23,22 @@ const getLogsByidOperationDocument = async (req, res) => {
     })
 }
 
+//modifie le log donné
+const updateLog = (req, res) => {
+  const data = req.body;
+  const filter = { _id: data._id };
+  const update = {
+    commentaire: data.commentaire,
+  };
+
+  logModel.updateOne(filter, update).then(result => {
+    res.status(200).send(result);
+  })
+    .catch(error => {
+      res.status(400).send({ message: error.message });
+    });;
+}
+
 //supprime tout les logs
 const deleteAllLogs = (req, res) => {
   logModel.deleteMany().then(result => {
@@ -36,5 +52,6 @@ const deleteAllLogs = (req, res) => {
 module.exports = {
   getLogs: getLogs,
   getLogsByidOperationDocument: getLogsByidOperationDocument,
+  updateLog: updateLog,
   deleteAllLogs: deleteAllLogs
 }

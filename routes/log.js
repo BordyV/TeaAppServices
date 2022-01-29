@@ -7,6 +7,9 @@ const token = require('../auth');
 router.get('/', logController.getLogs); // renvoi tous les logs
 router.get('/:id', logController.getLogsByidOperationDocument); // renvoi tous les logs en fonction de l'idOperationDocument
 
+// PUT 
+router.put('/', logController.updateLog);
+
 // DELETE 
 router.delete('/all', logController.deleteAllLogs);
 

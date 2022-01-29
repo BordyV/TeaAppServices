@@ -26,6 +26,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon apitea.js",
-    "start": "set NODE_ENV=dev&& node apitea.js"
+    "start": "set NODE_ENV=dev && node apitea.js"
   }
 }

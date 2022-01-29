@@ -61,27 +61,40 @@ const modifyTea = (req, res) => {
         stocks: data.stocks
     };
 
-    // `doc` is the document _after_ `update` was applied because of
-    // `returnOriginal: false`
-    teaModel.findOneAndUpdate(filter, update).then(result => {
-        try {
-            const tokenId = jwtUtil.getIdUserFromToken(req);
-            const newLog = new logModel({
-                action: 'modify-tea',
-                category: 'Tea',
-                createdBy: tokenId,
-                message: 'Modification du thé ' + data.reference,
-                _idOperationDocument: data._id
-            });
-            newLog.save();
-        } catch (e) {
+    teaModel.find({ reference: data.reference })
+        .then(async function (rslt) {
 
-        }
-        res.status(200).send(result);
-    })
-        .catch(error => {
-            res.status(400).send({ message: error.message });
-        });;
+            let exist = rslt.length > 0 ? true : false;
+            // si aucune référence est trouvé ou que le document._id est la meme que celui qu'on souhaite modifier
+            if (!exist || rslt[0]._id == data._id) {
+                await teaModel.findOneAndUpdate(filter, update).then(result => {
+                    try {
+                        const tokenId = jwtUtil.getIdUserFromToken(req);
+                        const newLog = new logModel({
+                            action: 'modify-tea',
+                            category: 'Tea',
+                            createdBy: tokenId,
+                            message: 'Modification du thé ' + data.reference,
+                            _idOperationDocument: data._id
+                        });
+                        newLog.save();
+                    } catch (e) {
+
+                    }
+                    res.status(200).send(result);
+                })
+                    .catch(error => {
+                        res.status(400).send({ message: error.message });
+                    });;
+            }
+            else {
+                res.status(403).json({ erreur: "Référence déjà existante." });
+            }
+
+        })
+        .catch(err => {
+            res.status(400).send({ message: err.message });
+        })
 }
 
 //recupere tout les thes
