@@ -4,20 +4,20 @@ const router = express.Router();
 const token = require('../auth');
 
 //GET
-router.get('/', teaController.getTeas);
-router.get('/:id', teaController.getTeaById);
-router.get('/instock', teaController.getTeasInStock);
+router.get('/', token, teaController.getTeas);
+router.get('/:id', token, teaController.getTeaById);
+router.get('/instock', token, teaController.getTeasInStock);
 
 // POST
 router.post('/', token, teaController.newTeaRef);
 router.post('/:id/stock', token, teaController.pushStock);
 
 //PUT
-router.put('/', teaController.modifyTea);
-router.put('/:id/stock/out', teaController.deleteStock);
+router.put('/', token, teaController.modifyTea);
+router.put('/:id/stock/out', token, teaController.deleteStock);
 
 // DELETE 
-router.delete('/', teaController.deleteTea);
-router.delete('/all', teaController.deleteAllTea);
+router.delete('/', token, teaController.deleteTea);
+router.delete('/all', token, teaController.deleteAllTea);
 
 module.exports = router;

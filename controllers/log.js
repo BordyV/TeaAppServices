@@ -11,6 +11,26 @@ const getLogs = async (req, res) => {
     })
 }
 
+//recupere tout les logs
+const getLogsPagination = async (req, res) => {
+  let aggregateQuery = logModel.aggregate();
+
+  await logModel.aggregatePaginate(aggregateQuery,
+    {
+      page: parseInt(req.query.page) || 1,
+      limit: parseInt(req.query.limit) || 6,
+      sort: { createdAt: -1 },
+
+    },
+    (err, logs) => {
+      if (err) {
+        res.send({ message: err.message });
+      }
+      res.status(200).send(logs);
+    }
+  );
+}
+
 //recupere tout les logs en fonction de l'idOperationDocument
 const getLogsByidOperationDocument = async (req, res) => {
   const _idOperationDocument = req.params.id;
@@ -51,6 +71,7 @@ const deleteAllLogs = (req, res) => {
 
 module.exports = {
   getLogs: getLogs,
+  getLogsPagination: getLogsPagination,
   getLogsByidOperationDocument: getLogsByidOperationDocument,
   updateLog: updateLog,
   deleteAllLogs: deleteAllLogs

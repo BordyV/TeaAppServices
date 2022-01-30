@@ -4,13 +4,14 @@ const router = express.Router();
 const token = require('../auth');
 
 // GET
-router.get('/', logController.getLogs); // renvoi tous les logs
-router.get('/:id', logController.getLogsByidOperationDocument); // renvoi tous les logs en fonction de l'idOperationDocument
+router.get('/', token, logController.getLogs); // renvoi tous les logs
+router.get('/pagination', token, logController.getLogsPagination); // renvoi tous les logs avec pagination
+router.get('/:id', token, logController.getLogsByidOperationDocument); // renvoi tous les logs en fonction de l'idOperationDocument
 
 // PUT 
-router.put('/', logController.updateLog);
+router.put('/', token, logController.updateLog);
 
 // DELETE 
-router.delete('/all', logController.deleteAllLogs);
+router.delete('/all', token, logController.deleteAllLogs);
 
 module.exports = router;

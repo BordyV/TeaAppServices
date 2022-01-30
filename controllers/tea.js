@@ -190,7 +190,7 @@ const pushStock = (req, res) => {
 
                         const dateExpFinal = format(dateExpiration, "dd/MM/yyyy");
                         const newLog = new logModel({
-                            action: 'ajout-stock',
+                            action: 'add-stock',
                             category: 'Tea',
                             createdBy: tokenId,
                             message: 'Ajout de stock au thé ' + ref + ': ' + data.quantity + ' unités expirant le ' + dateExpFinal,

@@ -1,5 +1,5 @@
-const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 //structure de donnee d'un thé
 const LogSchema = mongoose.Schema({
@@ -12,5 +12,7 @@ const LogSchema = mongoose.Schema({
 }, {
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 });
+
+LogSchema.plugin(aggregatePaginate);
 
 module.exports = mongoose.model('LOG_DATA', LogSchema, 'LOG_DATA');
